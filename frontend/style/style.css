@@ -1,0 +1,119 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+header{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.header-content {
+    background-color: red;
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+}
+
+.selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selector select {
+    padding: 5px;
+    border-width: 1px #ccc solid;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.selector div {
+    margin: 0 20px;
+}
+
+.switch {
+    width: 30px;
+    cursor: pointer;
+}
+
+.refresh-container {
+    display: flex;
+    align-items: center;
+}
+
+.button-refresh {
+    width: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.currency-display {
+    display: flex;
+    margin: 10px auto 0 auto;
+    justify-content: center;
+}
+
+.coin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.chart {
+    background-color: black;
+    width: 70%;
+    margin: 0 5px;
+    box-sizing: border-box;
+}
+
+.table-container {
+    width: 30%;
+    box-sizing: border-box;
+    margin: 0 5px;
+}
+
+.table {
+    background-color: #eee;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table td, .table th {
+    padding: 10px;
+    border: 1px #ccc solid;
+}
+
+.table td:hover {
+    background-color: #bbb;
+}
