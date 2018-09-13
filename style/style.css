@@ -5,6 +5,7 @@ body {
     padding: 0;
 }
 
+
 main {
     width: 90%;
     margin: 0 auto;
@@ -20,18 +21,24 @@ header{
 }
 
 .header-content {
-    background-color: red;
+    background-color: #00BAFF;
+        /* #9716E2
+        #00BAFF
+        #E5322B */
     width: 100%;
+    padding: 0 20px 0 20px;    
 }
 
 .content {
+    margin-top: 10px;
     width: 100%;
 }
 
 .selector {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
+    margin: 0 auto 20px auto;
 }
 
 .selector select {
@@ -43,13 +50,15 @@ header{
 }
 
 .selector div {
-    margin: 0 20px;
+    
+    margin: 0 20px;    
 }
 
 .switch {
     width: 30px;
-    cursor: pointer;
+    cursor: pointer; /*Changes mouse cursor when hovered*/
 }
+
 
 .refresh-container {
     display: flex;
@@ -57,7 +66,7 @@ header{
 }
 
 .button-refresh {
-    width: 30px;
+    width: 20px;
     cursor: pointer;
     margin-right: 10px;
 }
@@ -73,6 +82,13 @@ header{
     justify-content: center;
     align-items: center;
     margin: 0 20px;
+}
+
+.arrow-container {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
 }
 
 .logo {
@@ -91,10 +107,25 @@ header{
 }
 
 .chart {
-    background-color: black;
+    /* background-color: rgb(11, 15, 252); */
     width: 70%;
     margin: 0 5px;
-    box-sizing: border-box;
+    box-sizing: border-box;    
+    
+}
+
+.chart-graph {
+    background-color: #FFF;
+    border: 1px #ccc solid;
+
+}
+
+.stats_value {
+    padding: 0 30px 0 0;
+}
+
+.fees {
+    padding: 0 30px 0 0;
 }
 
 .table-container {
@@ -115,5 +146,9 @@ header{
 }
 
 .table td:hover {
-    background-color: #bbb;
+    background-color: #00BAFF;
 }
+
+/*roxo #9716E2
+   azul     #00BAFF
+vermelho #E5322B*/

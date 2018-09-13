@@ -26,6 +26,21 @@ function getCoinList() {
     )
 }
 
+getBitcoinFees();
+
+function getBitcoinFees() {
+    $.get('https://bitcoinfees.earn.com/api/v1/fees/recommended', function(data) {
+        fees = data;
+    }). done (
+        () => {
+            console.log(fees);
+            $('#highFee').text('High: ' + fees.fastestFee);
+            $('#mediumFee').text('Medium: ' + fees.halfHourFee);
+            $('#lowFee').text('Low: ' + fees.hourFee);
+        }
+    )
+}
+
 function refreshData() {
     $.get('https://api.cryptonator.com/api/full/btc-usd', function(data) {
         market = data;

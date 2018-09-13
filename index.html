@@ -12,8 +12,11 @@
 
     <header class="header">
         <div class="header-content">
-            <h1 class="title">Company - Criptocurrency Exchange</h1>
-        </div>
+            <h1 class="title">Company</h1>
+        </div>        
+        <div class="header-content">
+            <h2 class="title">Criptocurrency Exchange</h2>
+        </div>        
     </header>
 
     <main>
@@ -55,6 +58,10 @@
                     <span class="coin1">Bitcoint</span>
                 </div>
 
+                <div class="arrow-container">
+                    <img class="logo" src="/img/right-arrow-icon.svg" alt="Bitcoin">                    
+                </div>
+
                 <div class="coin-container">
                     <img class="logo" src="/img/dash.png" alt="Dash">
                     <span class="coin2">Dash</span>
@@ -64,7 +71,22 @@
 
             <div class="chart-container">
                 <div class="chart">
-                    &nbsp;
+                    <div class = "chart-stats"> 
+                        <span class = "stats_value">Lowest Value: 5460.0</span>
+                        <span class = "stats_value">Highest Value: 3231.4</span>
+                    </div>
+
+                    <div class = "chart-graph"> 
+                        &nbsp;
+                    </div>
+                    
+                    <div class = "chart-fees">
+                        Bitcoin Recommended Fees (satoshi per byte): <br>
+                        <span class = "fees" id = "highFee">High: 40</span>
+                        <span class = "fees" id = "mediumFee">Medium: 20</span>
+                        <span class = "fees" id = "lowFee">Low: 10</span>
+                    </div>
+
                 </div>
 
                 <div class="table-container">
