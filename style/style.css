@@ -100,8 +100,8 @@ header{
 
 .chart-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Linha */
+    align-items: flex-start; /* coluna */
     width: 100%;
     margin-top: 20px;
 }
@@ -129,15 +129,15 @@ header{
 }
 
 .table-container {
-    width: 30%;
-    box-sizing: border-box;
+    width: 30%;    
+    box-sizing: border-box; /**/
     margin: 0 5px;
 }
 
 .table {
     background-color: #eee;
     border-collapse: collapse;
-    width: 100%;
+    width: 100%;   
 }
 
 .table td, .table th {

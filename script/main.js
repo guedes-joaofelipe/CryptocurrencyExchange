@@ -46,7 +46,7 @@ function refreshData() {
         market = data;
     }).done (
         () => {
-            preencherPagina(market.ticker.markets);
+            fillExchangeTable(market.ticker.markets);
             $('.last-updated').text(
                 'Last Updated: ' + new Date().toLocaleString()
             )
@@ -55,7 +55,42 @@ function refreshData() {
 }
 
 
-function preencherPagina(market) {
+function getRecommendedMarket() {
+    return "YoBit";
+}
+
+function sortMarketTable(table, column, order) {
+
+
+    var filteredColumn = [];
+    table.map(
+        (res) => {
+            filteredColumn.push(res[column]);
+        } 
+    );
+
+    if (order === "asc") {
+        filteredColumn.sort();
+    } else {
+        filteredColumn.reverse();
+    }
+    
+    var sortedMarketTable = [];
+
+    table.filter(x => x[column] == filteredColumn);
+
+    console.log(filteredColumn);
+
+    // for (var row in table) {
+    //     filteredColumn.push(table[column]);
+    // }
+
+
+}
+
+
+
+function fillExchangeTable(market) {
 
     $('.table').empty();
     let table = $('.table');
@@ -70,6 +105,13 @@ function preencherPagina(market) {
     lineTitle.append(titleVolume);
 
     table.append(lineTitle);
+
+    let recommendedMarket = getRecommendedMarket();
+
+
+    sortMarketTable(market, "market", "desc");
+    console.log(recommendedMarket);
+    //console.log(market);
 
     market.forEach(data => {
 
