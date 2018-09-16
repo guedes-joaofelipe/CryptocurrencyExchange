@@ -1,0 +1,220 @@
+header{
+    width: 100%;
+    margin: 0px ;
+    /* display: flex; */
+    justify-content: left;
+}
+
+.header-content {
+    display: flex;      
+    width: 100%;
+    background-color: rgb(38, 38, 38);
+        /*Digital (Amarelo): #FFFF00
+        Strategy (Vermelho): #FF0000
+        Consulting (Roxo): #3A00A1
+        Technology (Verde): #00FF01
+        Operations (Azul): #00BAFF */
+        /* font-family: ; */
+    color: #FFFF00;
+    font-family: 'Arial'; 
+    font-weight: 5%;
+    line-height: 30px;
+    font-style: lighter; 
+    font-variant: normal;     
+    padding: 0 20px 0 20px;       
+    align-items: flex-start; /* coluna */
+    /* margin-top: 20px; */
+}
+
+.subheader-content {
+    background-color: rgb(110, 110, 110);
+        /*Digital (Amarelo): #FFFF00
+        Strategy (Vermelho): #FF0000
+        Consulting (Roxo): #3A00A1
+        Technology (Verde): #00FF01
+        Operations (Azul): #00BAFF */
+    /* font-family: ; */
+    color: #FFFF00;
+    font-family: "Segoe UI";    
+    display: flex;    
+    line-height: 10px;
+    font-weight: lighter;
+    font-style: normal; 
+    font-variant: italic;     
+    padding: 0 20px 0 20px;        
+    align-items: flex-start; /* coluna */
+    width: 100%;
+    /* margin-top: 20px; */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif;  */
+    /* font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; */
+   
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+main {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+
+.content {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.selector {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    margin: 0 auto 20px auto;
+}
+
+.selector select {
+    padding: 5px;
+    border-width: 1px #ccc solid;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.selector div {
+    
+    margin: 0 20px;    
+}
+
+.switch {
+    width: 30px;
+    cursor: pointer; /*Changes mouse cursor when hovered*/
+}
+
+
+.refresh-container {
+    display: flex;
+    align-items: center;
+}
+
+.button-refresh {
+    width: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.currency-display {
+    display: flex;
+    margin: 10px auto 0 auto;
+    justify-content: center;
+}
+
+.coin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.arrow-container {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center; /* Linha */
+    align-items: flex-start; /* coluna */
+    width: 100%;
+    margin-top: 20px;
+}
+
+.chart {
+    /* background-color: rgb(11, 15, 252); */
+    width: 70%;
+    margin: 0 5px;
+    box-sizing: border-box;    
+    
+}
+
+.chart-graph {
+    background-color: #FFF;
+    border: 1px #ccc solid;
+
+}
+
+.stats_value {
+    padding: 0 30px 0 0;
+}
+
+.fees {
+    padding: 0 30px 0 0;
+}
+
+.table-container {
+    width: 30%;    
+    box-sizing: border-box; /**/
+    margin: 0 5px;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;           
+}
+
+/* .table td, .table th {
+    background-color: #eee;    
+    padding: 10px;
+    border: 1px #ccc solid;
+} */
+
+.table th {
+    background-color: rgb(38, 38, 38);    
+    color: #fff;
+    padding: 10px;
+    border: 1px #ccc solid;
+    align-items: center;
+}
+
+.table th img {
+    color: white;
+    width: 10px;
+    margin-left: 5px;
+}
+
+.rotate {
+    transform: rotateX(180deg);
+}
+
+.invisible {
+    display: none;
+}
+
+.table td {
+    background-color: #eee;    
+    padding: 10px;
+    border: 1px #ccc solid;
+}
+
+.table-recommended {
+    background-color: #FFFF00 !important; /* Overwrites background color */
+}
+
+.table td:hover {
+    background-color:rgb(201, 201, 201);
+    color: #000;
+}
