@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404 # Return object or an error
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
 from rest_framework import status
-from .models import Cryptocurrency, Exchange
-from .serializers import CryptocurrencySerializer, ExchangeSerializer
+from .models import Cryptocurrency, Exchange, Price
+from .serializers import CryptocurrencySerializer, ExchangeSerializer, PriceSerializer
 from django.http import JsonResponse, Http404
 import requests  
 
@@ -129,3 +129,91 @@ def exchangeDetail(request, name):
 
         # Trying to get from cryptocompare
         raise Http404("Exchange {} does not exist".format(name))
+
+
+
+
+##############################
+#  Price Class Functions
+##############################
+
+
+class PriceList(APIView):
+    def get(self, request):
+        price = Price.objects.all()
+        serializer = PriceSerializer(price, many = True) # Many: return multiple json objects instead of just one
+        print (serializer.data)
+        return Response(serializer.data) # Just the json data
+
+    
+def updatePricesData(request, coinOrigin, coinDestiny, exchange, limit):    
+    # http://127.0.0.1:8000/api/pricesList/updatePricesData/trade=BTC&to=ETH&exchange=Coincap&limit=60
+    # limit = 60
+    https = 'https://min-api.cryptocompare.com/data/histominute?fsym={0}&tsym={1}&limit={2}&aggregate=3&e={3}'.format(coinOrigin, coinDestiny, limit, exchange)
+    request_result = requests.get(https)
+    request_json = request_result.json()
+
+    for priceDict in request_json['Data']:
+        # print (priceDict)        
+        # print ("From: ", coinOrigin)
+        cryptocurrencyOrigin = Cryptocurrency.objects.get(ticker = coinOrigin)
+
+        # print ("To: ", coinDestiny)
+        cryptocurrencyDestiny = Cryptocurrency.objects.get(ticker = coinDestiny)
+
+        # print ("Where: ", exchange)        
+        exchangeObject = Exchange.objects.get(name = exchange)
+        # print ("Found")
+
+        try: 
+            # if cryptocurrency exists, gets saved data to be updated (preserves existing ID)            
+            price = Price.objects.get(idCoinOrigin = cryptocurrencyOrigin.id, idCoinDestiny = cryptocurrencyDestiny.id, idExchange = exchangeObject.id, timestamp = priceDict['time'])
+        
+        except Price.DoesNotExist:
+            # if id does not exist, we create a new one with a new id
+            price = Price(idCoinOrigin = cryptocurrencyOrigin.id, idCoinDestiny = cryptocurrencyDestiny.id, idExchange = exchangeObject.id, timestamp = priceDict['time'])
+
+        # Tries to set attribute to object. If info does not exists, sets None
+        
+        price.close = priceDict['close']
+        price.high = priceDict['high']
+        price.low = priceDict['low']
+        price.open = priceDict['open']        
+        price.volumeOrigin = priceDict['volumefrom']
+        price.volumeDestiny = priceDict['volumeto']
+        price.save()
+
+    # Returns updated list    
+    #return Http200()
+
+# List details of a given Coin through its ticker
+def priceDetail(request, coinOrigin, coinDestiny, exchange, limit = None):    
+    # cryptocurrency = get_object_or_404(Cryptocurrency, ticker = ticker)
+    # print (cryptocurrency)
+    # serializer = CryptocurrencySerializer(cryptocurrency)
+    # return JsonResponse(serializer.data, safe = False)    
+
+    coinOrigin = Cryptocurrency.objects.get(ticker = coinOrigin)
+    coinDestiny = Cryptocurrency.objects.get(ticker = coinDestiny)
+    exchange = Exchange.objects.get(name = exchange)
+
+    try: 
+        # # if cryptocurrency exists, gets saved data to be updated (preserves existing ID)            
+        # price = Price.objects.get(idCoinOrigin = coinOrigin.id, idCoinDestiny = coinDestiny.id, idExchange = exchange, timestamp = priceDict['time'])
+        # serializer = ExchangeSerializer(price)
+        # return JsonResponse(serializer.data, safe = False)    
+
+        https = 'https://min-api.cryptocompare.com/data/histominute?fsym={0}&tsym={1}&limit={2}&aggregate=3&e={3}'.format(coinOrigin, coinDestiny, limit, exchange)
+        request_result = requests.get(https)
+        request_json = request_result.json()
+
+        return Response(request_json) # Just the json data
+
+
+    except Price.DoesNotExist:
+        # if id does not exist, we create a new one with a new id
+        raise Http404("Price data from {} to {} in {} does not exist".format(coinOrigin.ticker, coinDestiny.ticker, exchange.name))
+
+
+    
+

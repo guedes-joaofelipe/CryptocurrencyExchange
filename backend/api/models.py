@@ -28,3 +28,21 @@ class Exchange(models.Model):
     def __str__(self):
         return self.name
 
+class Price(models.Model):
+    idCoinOrigin = models.IntegerField()
+    idCoinDestiny = models.IntegerField()
+    idExchange = models.IntegerField()
+    close = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+    open = models.FloatField()
+    timestamp = models.IntegerField()
+    volumeOrigin = models.FloatField()
+    volumeDestiny = models.FloatField()
+
+    def __str__(self):
+        coinOrigin = Cryptocurrency.objects.get(pk = self.idCoinOrigin).ticker
+        coinDestiny = Cryptocurrency.objects.get(pk = self.idCoinDestiny).ticker        
+
+        return "From-{}_To-{}_at-{}".format(coinOrigin, coinDestiny, self.timestamp)
+

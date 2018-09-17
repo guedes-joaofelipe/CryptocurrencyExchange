@@ -15,12 +15,10 @@ urlpatterns = [
     url(r'^exchangesList/updateExchangesData/$', views.updateExchangesData, name = "updateExchanges"), 
     url(r'^exchangesList/(?P<name>[0-9A-Za-z]+)/$', views.exchangeDetail, name = "exchangeDetail"),   
 
-    # /music/albumId/
-    # name references 
-    #url(r'^(?P<album_id>[0-9]+)/$', views.detail, name = "detail"), # saves whatever comes in [0-9] to a variable album_id
-
-    # /music/<album_id>/favorite/
-    #url(r'^(?P<album_id>[0-9]+)/favorite/$', views.favorite, name = "favorite"), 
+    url(r'^pricesList/$', views.PriceList.as_view()),    
+    # pricesList/updatePricesData/trade=BTC&to=USD&exchange=CCCAGG&limit=60
+    url(r'^pricesList/updatePricesData/trade=(?P<coinOrigin>[0-9A-Za-z]+)&to=(?P<coinDestiny>[0-9A-Za-z]+)&exchange=(?P<exchange>[0-9A-Za-z]+)&limit=(?P<limit>[0-9]+)$', views.updatePricesData, name = "updatePrices"), 
+    #url(r'^pricesList/(?P<name>[0-9A-Za-z]+)/$', views.exchangeDetail, name = "exchangeDetail"),   
     
 
 ]
