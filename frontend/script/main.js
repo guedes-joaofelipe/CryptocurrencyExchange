@@ -6,6 +6,7 @@ let exchangeData; // global
 let originCoin;
 let destinyCoin;
 let currentTarget = ''
+let apiUrl = 'http://127.0.0.1:8000/api/'
 
 $('.button-refresh').click(refreshData);
 
@@ -19,6 +20,29 @@ refreshData('btc', 'usd');
 $('.title-table').click(
     function ($event) { // gets user clicked item id
         clickOrder(event.target.id);
+    }
+)
+
+$('.switch-container').click(
+    function () {
+        // // Get trade selected option
+        $('.trade-option:selected').val($('.to-option:selected').val()); // LTC
+        $('.trade-option:selected').text($('.to-option:selected').text()); // LTC
+
+        // Get to selected option
+        // toOptionVal = $('.to-option:selected').val(); // BTC
+        // toOptionText = $('.to-option:selected').text(); // BTC
+        // console.log(toOptionVal)
+
+        // // Swap selected options
+        // // $('.trade-option:select').val(toOption);
+        // // $('.to-option:select').val(tradeOption);
+        // $('.trade-option:selected').text(toOptionText).change();
+        // $('.to-option:selected').text(tradeOptionText).change();
+        // $('.trade-option:selected').val(toOptionVal).change();
+        // $('.to-option:selected').val(tradeOptionVal).change();
+        
+        
     }
 )
 
@@ -62,25 +86,82 @@ function clickOrder(target) {
     }
 }
 
-//getCoinList();
 
+getCoinList()
 function getCoinList() {
-    $.get('/coinList.json', function (data) {
-        coinsList = data;
-    }).done(
-        () => {
-            console.log(coinsList)
-            // coinsList.forEach(value => {
-            //     const coin = {
-            //         name: value.FullName,
-            //         img: 'https://www.cryptocompare.com' + coin.ImageUrl
-            //     }
 
-            //     coinsName.append(coin);
-            // })
+    // url_coins_list = 'http://127.0.0.1:8000/api/coinsList/'
+    url_coins_list = apiUrl + 'coinsList/'
+    // url_coins_list = 'https://www.cryptocompare.com/api/data/coinlist'
+    // console.log(url_coins_list)
+    $.get(url_coins_list, function (data) {
+        
+        retrievedCoinsList = data;
+    }).done(
+        () => {            
+            $('#trade').empty();
+            $('#to').empty();
+
+            // console.log(retrievedCoinsList)
+
+            retrievedCoinsList.forEach(value => {
+                const coin = {
+                    name: value.fullName,                    
+                    img: value.baseUrl + value.imageUrl,
+                    isTrading: value.isTrading,
+                    ticker: value.ticker
+                }
+
+                //console.log(coin);
+                coinsList.push(coin);
+
+                if (coin.ticker === "BTC") {
+                    $('#trade').append($(`<option class = "trade-option" value = "${coin.ticker}" selected>${coin.name}</option>`));
+                } else {
+                    $('#trade').append($(`<option class = "trade-option" value = "${coin.ticker}">${coin.name}</option>`));
+                }
+
+                if (coin.ticker === "LTC") {
+                    console.log('Tickier', coin.ticker);
+                    $('#to').append($(`<option class = "to-option" value = "${coin.ticker}" selected>${coin.name}</option>`));
+                } else {
+                    $('#to').append($(`<option class = "to-option" value = "${coin.ticker}">${coin.name}</option>`));
+                }
+                
+                
+            })
+
+            // return coinsList;
         }
     )
+   
 }
+
+// change coin method 
+$('#trade').change( getTradeOption );
+
+// function changeTradeOption
+// function getTradeOption
+// function changeToOption
+// function getToOption
+// function getRecommended
+// function fillExchangeTable
+// function fillChart
+// function fillRecommended
+
+function getTradeOption() {
+    let option = $('.trade-option:selected').val();
+    
+    let coin = coinsList.find(x => x.ticker === option)
+    console.log(coin);
+    console.log($('.trade-logo'));
+    
+
+
+}
+// ----
+
+
 
 
 
@@ -224,3 +305,5 @@ function fillExchangeTable(exchangeData, sortColumn, order) {
     });
 
 }
+
+console.log(coinsList);

@@ -15,7 +15,7 @@ class CryptocurrencyList(APIView):
     def get(self, request):
         cryptocurrencies = Cryptocurrency.objects.all()
         serializer = CryptocurrencySerializer(cryptocurrencies, many = True) # Many: return multiple json objects instead of just one
-        print (serializer.data)
+        #print (serializer.data)
         return Response(serializer.data) # Just the json data
 
 def updateCoinsData(request):    
@@ -67,6 +67,8 @@ def coinDetail(request, ticker):
         # ---- To be implemented     
         # Trying to get from cryptocompare
         raise Http404("Coin ticker {} does not exist".format(ticker))
+
+
 
 
 
@@ -215,5 +217,13 @@ def priceDetail(request, coinOrigin, coinDestiny, exchange, limit = None):
         raise Http404("Price data from {} to {} in {} does not exist".format(coinOrigin.ticker, coinDestiny.ticker, exchange.name))
 
 
+def priceSnapshot(request, coinOrigin, coinDestiny):
     
+    
+    https = 'https://min-api.cryptocompare.com/data/top/exchanges/full?fsym={0}&tsym={1}'.format(coinOrigin, coinDestiny)
+    request_result = requests.get(https)
+    json = request_result.json()
+
+    return JsonResponse(json)
+
 

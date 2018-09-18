@@ -19,6 +19,7 @@ urlpatterns = [
     # pricesList/updatePricesData/trade=BTC&to=USD&exchange=CCCAGG&limit=60
     url(r'^pricesList/updatePricesData/trade=(?P<coinOrigin>[0-9A-Za-z]+)&to=(?P<coinDestiny>[0-9A-Za-z]+)&exchange=(?P<exchange>[0-9A-Za-z]+)&limit=(?P<limit>[0-9]+)$', views.updatePricesData, name = "updatePrices"), 
     #url(r'^pricesList/(?P<name>[0-9A-Za-z]+)/$', views.exchangeDetail, name = "exchangeDetail"),   
-    
+    #coinSnapshot/trade=BTC&to=ETH)
+    url(r'^coinSnapshot/trade=(?P<coinOrigin>[0-9A-Za-z]+)&to=(?P<coinDestiny>[0-9A-Za-z]+)$', views.priceSnapshot, name = "priceSnapshot"), 
 
 ]
