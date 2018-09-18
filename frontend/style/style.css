@@ -21,9 +21,13 @@ header{
     line-height: 30px;
     font-style: lighter; 
     font-variant: normal;     
-    padding: 0 20px 0 20px;       
+    /* padding: 0 20px 0 20px;        */
     align-items: flex-start; /* coluna */
     /* margin-top: 20px; */
+}
+
+.header-content h1 {
+    margin-left: 20px;
 }
 
 .subheader-content {
@@ -125,7 +129,6 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 10px;
 }
 
 .logo {
@@ -133,6 +136,10 @@ main {
     height: 50px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.arrow {
+    width: 40px;
 }
 
 .chart-container {
@@ -152,12 +159,12 @@ main {
 }
 
 .chart-graph {
-    background-color: #FFF;
-    border: 1px #ccc solid;
+    /* background-color: #FFF; */
+    /* border: 1px #ccc solid; */
 
 }
 
-.stats_value {
+.stats-value {
     padding: 0 30px 0 0;
 }
 

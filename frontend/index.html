@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="./style/style.css">
     <title>Teste</title>
 </head>
 
@@ -12,7 +12,7 @@
 
     <header class="header">
         <div class="header-content">
-            <h1 class="title">CRIPTOCURRENCY Exchange</h1>
+            <h1 class="title">Cryptocurrency Exchange</h1>
         </div>
         <!-- <div class="subheader-content">
             <h2 class="title">Recommender System</h2>
@@ -32,9 +32,9 @@
                     </select>
                 </div>
 
-                <div class="switch-container">
-                    <img class="switch" src="/img/switch-icon.svg">
-                </div>
+                <!-- <div class="switch-container">
+                    <img class="switch" src="./img/switch-icon.svg">
+                </div> -->
 
                 <div class="to">
                     <span>To:</span>
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="refresh-container">
-                    <img src="/img/refresh-icon.svg" class="button-refresh">
+                    <img src="./img/refresh-icon.svg" class="button-refresh">
                     <span class="last-updated"></span>
                 </div>
 
@@ -54,18 +54,17 @@
 
             <div class="currency-display">
                 <div class="coin-container">
-                    <!-- <img class="logo tradeLogo" src="/img/bitcoin.png" alt="Bitcoin"> -->
-                    <img class="logo tradeLogo">
-                    <span class="firstCoinName">(BTC) - Bitcoin</span> 
+                    <img class="logo tradeLogo" src="./img/bitcoin.png" alt="Bitcoin"> 
+                    <span class="firstCoinName">Bitcoin (BTC)</span> 
                 </div>
 
                 <div class="arrow-container">
-                    <img class="logo" src="/img/right-arrow-icon.svg" alt="Bitcoin">
+                    <img class="arrow" src="./img/right-arrow-icon.svg">
                 </div>
 
                 <div class="coin-container">
-                    <img class="logo" src="/img/dash.png" alt="Dash">
-                    <span class="coin2">(DSH) - Dash</span>
+                    <img class="logo toLogo" src="./img/ltc.png" alt="Dash">
+                    <span class="secondCoinName">Litecoin (LTC)</span>
                 </div>
             </div>
 
@@ -73,13 +72,13 @@
             <div class="chart-container">
                 <div class="chart">
                     <div class="chart-stats">
-                        <span class="stats_value">Lowest Value: 5460.0</span>
-                        <span class="stats_value">Highest Value: 3231.4</span>
+                        <span class="stats-value min-price"></span>
+                        <span class="stats-value max-price"></span>
                     </div>
 
-                    <div class="chart-graph">
-                        &nbsp;
-                    </div>
+                    <canvas class="chart-graph" width='auto' height="auto">
+                        <!-- &nbsp; -->
+                    </canvas>
 
                     <div class="chart-fees">
                         Bitcoin Recommended Fees (satoshi per byte): <br>
@@ -96,16 +95,20 @@
                             <tr>
                                 <th id="market" class="title-table">
                                     Market
-                                    <img class="arrow-icon invisible" src="/img/order-arrow-icon.svg">
+                                    <img class="arrow-icon invisible" src="./img/order-arrow-icon.svg">
                                 </th>
                                 <th id="price" class="title-table">
                                     Price
-                                    <img class="arrow-icon invisible" src="/img/order-arrow-icon.svg">
+                                    <img class="arrow-icon invisible" src="./img/order-arrow-icon.svg">
                                 </th>
-                                <th id="volume" class="title-table">
-                                    Volume
-                                    <img class="arrow-icon invisible" src="/img/order-arrow-icon.svg">
+                                <th id="lastVolumeFrom" class="title-table">
+                                    Volume (BTC)
+                                    <img class="arrow-icon invisible" src="./img/order-arrow-icon.svg">
                                 </th>
+                                <!-- <th id="lastVolumeTo" class="title-table">
+                                    Volume (LTC)
+                                    <img class="arrow-icon invisible" src="./img/order-arrow-icon.svg">
+                                </th> -->
                             </tr>
                         </thead>
                         <tbody class="table-body">
@@ -119,8 +122,9 @@
         </div>
     </main>
 
-    <script src="/script/jquery.min.js"></script>
-    <script src="/script/main.js"></script>
+    <script src="./script/jquery.min.js"></script>
+    <script src="./script/Chart.min.js"></script>
+    <script src="./script/main.js"></script>
 </body>
 
 </html>
