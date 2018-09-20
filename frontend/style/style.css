@@ -20,35 +20,12 @@ header{
     font-weight: 5%;
     line-height: 30px;
     font-style: lighter; 
-    font-variant: normal;     
-    /* padding: 0 20px 0 20px;        */
-    align-items: flex-start; /* coluna */
-    /* margin-top: 20px; */
+    font-variant: normal;         
+    align-items: flex-start; /* coluna */    
 }
 
 .header-content h1 {
     margin-left: 20px;
-}
-
-.subheader-content {
-    background-color: rgb(110, 110, 110);
-        /*Digital (Amarelo): #FFFF00
-        Strategy (Vermelho): #FF0000
-        Consulting (Roxo): #3A00A1
-        Technology (Verde): #00FF01
-        Operations (Azul): #00BAFF */
-    /* font-family: ; */
-    color: #FFFF00;
-    font-family: "Segoe UI";    
-    display: flex;    
-    line-height: 10px;
-    font-weight: lighter;
-    font-style: normal; 
-    font-variant: italic;     
-    padding: 0 20px 0 20px;        
-    align-items: flex-start; /* coluna */
-    width: 100%;
-    /* margin-top: 20px; */
 }
 
 body {
@@ -94,12 +71,6 @@ main {
     
     margin: 0 20px;    
 }
-
-.switch {
-    width: 30px;
-    cursor: pointer; /*Changes mouse cursor when hovered*/
-}
-
 
 .refresh-container {
     display: flex;
@@ -158,11 +129,11 @@ main {
     
 }
 
-.chart-graph {
-    /* background-color: #FFF; */
-    /* border: 1px #ccc solid; */
+/* .chart-graph {
+    // background-color: #FFF; 
+    // border: 1px #ccc solid; 
 
-}
+} */
 
 .stats-value {
     padding: 0 30px 0 0;
