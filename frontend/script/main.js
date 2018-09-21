@@ -7,8 +7,8 @@ let destinyCoin;
 let currentTarget = '';
 let apiLocalhost = 'http://127.0.0.1:8000';
 let apiUrl = apiLocalhost + '/api/';
-let defaultTargetCoin = 'eth';
-let defaultOriginCoin = 'btc';
+let defaultTargetCoin = 'ETH';
+let defaultOriginCoin = 'BTC';
 let recommendedMarket = '';
 var myChart;
 
@@ -63,13 +63,13 @@ function getCoinList() {
                     coinsList.push(coin);
 
                     // Setting Default Options 
-                    if (coin.ticker === defaultOriginCoin.toUpperCase()) {
+                    if (coin.ticker.toUpperCase() === defaultOriginCoin.toUpperCase()) {
                         $('#trade').append($(`<option class = "trade-option" value = "${coin.ticker}" selected>${coin.name}</option>`));
                     } else {
                         $('#trade').append($(`<option class = "trade-option" value = "${coin.ticker}">${coin.name}</option>`));
                     }
 
-                    if (coin.ticker === defaultTargetCoin.toUpperCase()) {                    
+                    if (coin.ticker.toUpperCase() === defaultTargetCoin.toUpperCase()) {                    
                         $('#to').append($(`<option class = "to-option" value = "${coin.ticker}" selected>${coin.name}</option>`));
                     } else {
                         $('#to').append($(`<option class = "to-option" value = "${coin.ticker}">${coin.name}</option>`));
@@ -130,7 +130,7 @@ function refreshData(originCoin, destinyCoin) {
     // Old url: `https://api.cryptonator.com/api/full/${originCoin}-${destinyCoin}`
     https = `https://min-api.cryptocompare.com/data/top/exchanges/full?fsym=${originCoin.toUpperCase()}&tsym=${destinyCoin.toUpperCase()}`
     let httpResponse;
-
+    
     $.get(https, function (data) {
         httpResponse = data.Data.Exchanges;       
 
@@ -324,6 +324,11 @@ function fillExchangeTable(exchangeData, sortColumn = "market", asc = true) {
 function fillChart(exchange) {
     let tradeOption = $('.trade-option:selected').val();
     let toOption = $('.to-option:selected').val();
+
+    if (!tradeOption && !toOption) {
+        tradeOption = defaultOriginCoin
+        toOption = defaultTargetCoin
+    }
     
     limit = 30
     let x_axis = []
