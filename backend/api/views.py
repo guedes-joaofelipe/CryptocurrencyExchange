@@ -15,8 +15,9 @@ class CryptocurrencyList(APIView):
     def get(self, request):
         cryptocurrencies = Cryptocurrency.objects.all()
         serializer = CryptocurrencySerializer(cryptocurrencies, many = True) # Many: return multiple json objects instead of just one
+        data = serializer.data        
         #print (serializer.data)
-        return Response(serializer.data) # Just the json data
+        return Response(data) # Just the json data
 
 def updateCoinsData(request):    
     request_result = requests.get('https://min-api.cryptocompare.com/data/all/coinlist')
@@ -57,6 +58,7 @@ def coinDetail(request, ticker):
     try: 
         cryptocurrency = Cryptocurrency.objects.get(ticker = ticker)
         serializer = CryptocurrencySerializer(cryptocurrency)
+
         return JsonResponse(serializer.data, safe = False)    
 
 
@@ -80,8 +82,7 @@ def coinDetail(request, ticker):
 class ExchangeList(APIView):
     def get(self, request):
         exchange = Exchange.objects.all()
-        serializer = ExchangeSerializer(exchange, many = True) # Many: return multiple json objects instead of just one
-        print (serializer.data)
+        serializer = ExchangeSerializer(exchange, many = True) # Many: return multiple json objects instead of just one        
         return Response(serializer.data) # Just the json data
 
     

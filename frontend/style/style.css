@@ -113,6 +113,12 @@ main {
     width: 40px;
 }
 
+.response-container {
+    display: flex; 
+    justify-content: left;
+    
+}
+
 .chart-container {
     display: flex;
     justify-content: center; /* Linha */

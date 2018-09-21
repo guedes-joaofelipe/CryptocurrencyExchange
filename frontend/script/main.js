@@ -39,8 +39,6 @@ $('.title-table').click(
 // - getToOption
 // ----------------------------------------------------
 
-getCoinList();
-refreshData(defaultOriginCoin, defaultTargetCoin);
 function getCoinList() {
     // Gets coins list from API and sets it to coinsList variable
 
@@ -110,7 +108,7 @@ function getToOption() {
     
     $('.toLogo')[0].src = coin.img;
     $('.secondCoinName').text(coin.name);
-
+    
     refreshData(tradeOption, toOption);
 }
 
@@ -131,14 +129,26 @@ function refreshData(originCoin, destinyCoin) {
 
     // Old url: `https://api.cryptonator.com/api/full/${originCoin}-${destinyCoin}`
     https = `https://min-api.cryptocompare.com/data/top/exchanges/full?fsym=${originCoin.toUpperCase()}&tsym=${destinyCoin.toUpperCase()}`
+    let httpResponse;
 
     $.get(https, function (data) {
-        httpResponse = data.Data.Exchanges;
+        httpResponse = data.Data.Exchanges;       
+
+        if (typeof httpResponse === "undefined") {            
+            $('.table-body').empty();
+            myChart.data.datasets = {};    
+            myChart.update();
+            $('.fees').addClass('invisible')    
+            $('.response-container').text('No exchanges available for this trade')
+            return
+        } else {
+            $('.response-container').text('Data retrieved successfully')
+        }
+
     }).done(
-        () => {
-            
-            if (typeof httpResponse === undefined){
-                alert("Invalid Combination")
+        () => {          
+
+            if (typeof httpResponse === "undefined"){                
                 return
             } 
 
@@ -156,8 +166,14 @@ function refreshData(originCoin, destinyCoin) {
             recommendedMarket = getRecommendedMarket();
 
             fillExchangeTable(exchangeData);
+            fillChart(recommendedMarket);            
+            // $.when(fillExchangeTable(exchangeData)).then(fillChart(recommendedMarket))
 
-            fillChart(recommendedMarket);
+            if (originCoin.toUpperCase() === "BTC" || destinyCoin.toUpperCase() === "BTC") {
+                getBitcoinFees();
+            } else {                
+                $('.fees').addClass('invisible')    
+            }
 
             $('.last-updated').text('Last Updated: ' + new Date().toLocaleString());
 
@@ -278,8 +294,6 @@ function fillExchangeTable(exchangeData, sortColumn = "market", asc = true) {
                 addChart(data.market);
             }
 
-
-
         });
 
         let columnMarket = $("<td>").text(data.market);
@@ -303,14 +317,9 @@ function fillExchangeTable(exchangeData, sortColumn = "market", asc = true) {
 }
 // --------------------------------------------------------------
 
-
-
 // -------------------------------------------------------------
 // --- Chart Functions 
 // ------------------------------------------------------------- 
-
-
-
 
 function fillChart(exchange) {
     let tradeOption = $('.trade-option:selected').val();
@@ -332,11 +341,10 @@ function fillChart(exchange) {
             y_axis.push(snapshot.close)            
         })
 
-        minPrice = Math.min.apply(null, y_axis);
-        maxPrice = Math.max.apply(null, y_axis);
-
-        $('.min-price').text(`Minimum Price: ${minPrice}`);
-        $('.max-price').text(`Maximum Price: ${maxPrice}`);
+        // minPrice = Math.min.apply(null, y_axis);
+        // maxPrice = Math.max.apply(null, y_axis);
+        // $('.min-price').text(`Minimum Price: ${minPrice}`);
+        // $('.max-price').text(`Maximum Price: ${maxPrice}`);
 
         r = Math.floor(Math.random() * 255);
         g = Math.floor(Math.random() * 255);
@@ -356,24 +364,7 @@ function fillChart(exchange) {
                     borderColor: "rgb(" + r + "," + g + "," + b + ")",                   
                     // backgroundColor: '#FFF',
                     fill: false,
-                    data: y_axis, //[12, 19, 3, 5, 2, 3],
-                    // backgroundColor: [
-                    //     'rgba(255, 99, 132, 0.2)',
-                    //     'rgba(54, 162, 235, 0.2)',
-                    //     'rgba(255, 206, 86, 0.2)',
-                    //     'rgba(75, 192, 192, 0.2)',
-                    //     'rgba(153, 102, 255, 0.2)',
-                    //     'rgba(255, 159, 64, 0.2)'
-                    // ],
-                    // borderColor: [
-                    //     'rgba(255,99,132,1)',
-                    //     'rgba(54, 162, 235, 1)',
-                    //     'rgba(255, 206, 86, 1)',
-                    //     'rgba(75, 192, 192, 1)',
-                    //     'rgba(153, 102, 255, 1)',
-                    //     'rgba(255, 159, 64, 1)'
-                    // ],
-                    // borderWidth: 1
+                    data: y_axis, 
                 }
                 ]
                 },
@@ -433,24 +424,24 @@ function addChart(exchange) {
 }
 
 function removeChart(exchangeIndex) {
-    // Removes a dataset from the chart by its index
-    
+    // Removes a dataset from the chart by its index    
     myChart.data.datasets.splice(exchangeIndex, 1);    
     myChart.update();
 }
 
 // ----------------------------------------------------------
 //  Recommended Section Functions 
-// ----------------------------------------------------------
-
 // function getRecommended
 // function fillRecommended
+// ----------------------------------------------------------
+
 
 function getBitcoinFees() {
     $.get('https://bitcoinfees.earn.com/api/v1/fees/recommended', function (data) {
         fees = data;
     }).done(
-        () => {            
+        () => { 
+            $('.fees').removeClass('invisible')           
             $('#highFee').text('High: ' + fees.fastestFee);
             $('#mediumFee').text('Medium: ' + fees.halfHourFee);
             $('#lowFee').text('Low: ' + fees.hourFee);
@@ -458,127 +449,70 @@ function getBitcoinFees() {
     )
 }
 
-// getRecommendedMarket()
+
 function getRecommendedMarket() {
-    
+    // This function gets the market which was recommended by 
+    // the API. If multiple markets are recommended, then 
+    // the market with the highest price is chosen. 
+    // However, if no market is recommended by the API, then 
+    // the market with the highest price is recommended
+
     let recommendedMarket;
+    let httpResponse;
     biggestPrice = 0;
+    prices = []; // To store all prices
+    recommended = []; // To store booleans of recommended markets
 
     exchangeData.forEach(function (exchange) {        
+        prices.push(exchange.price);
         if (exchange.price > biggestPrice) {
             recommendedMarket = exchange.market;
             biggestPrice = exchange.price;
         }
+
+        http = apiUrl + 'exchangesList/' + exchange.market       
+
+        $.get(http, function (data) {
+            httpResponse = data.recommended              
+        }).done (
+            () => {                                          
+                recommended.push(httpResponse)
+            }
+        )
+
     })
+
+    // Checking if any market was recommended by API
+    index = recommended.filter(item => item === true);
+    if (index.length > 1) {
+        // Getting recommended with biggest price
+        recommended = recommended[index]
+        prices = prices[index]
+
+        // Sorting recommended markets according to their price
+        const result = recommended
+        .map((item, index) => [prices[index], item]) // add the clickCount to sort by
+        .sort(([count1], [count2]) => count2 - count1) // sort by the clickCount data
+        .map(([, item]) => item); // extract the sorted items
+        
+        recommendedMarket = result[0];
+        
+    } else if (index.length === 1) {
+        // Getting only recommended
+        recommendedMarket = recommended[index]
+    } 
     
     return recommendedMarket;
 }
 
+// Loading Data with default values
+$.when(getCoinList()).then(refreshData(defaultOriginCoin, defaultTargetCoin));
+// getCoinList();
+// refreshData(defaultOriginCoin, defaultTargetCoin);
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function fillChart2(exchange) {
-    let tradeOption = $('.trade-option:selected').val();
-    let toOption = $('.to-option:selected').val();
-    
-    limit = 30
-    let x_axis = []
-    let y_axis = []
-    let volume = []
-    let history
-    https = `https://min-api.cryptocompare.com/data/histohour?fsym=${tradeOption}&tsym=${toOption}&limit=${limit}&aggregate=3&e=${exchange}`
-
-    $.get(https, function (data) {
-        history = data.Data;
-    }).done(function () {
-        
-        history.forEach(function (snapshot) {
-            x_axis.push(new Date(snapshot.time * 1000).toLocaleTimeString())
-            y_axis.push(snapshot.close)
-            volume.push(snapshot.volumefrom);
-        })
-
-        minPrice = Math.min.apply(null, y_axis);
-        maxPrice = Math.max.apply(null, y_axis);
-
-        $('.min-price').text(`Minimum Price: ${minPrice}`);
-        $('.max-price').text(`Maximum Price: ${maxPrice}`);
-
-        var ctx = document.querySelector(".chart-graph").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: x_axis,//["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                datasets:
-                [ // {dataset1}, {dataset2}
-                    {
-                    label: 'Close Price',
-                    yAxisID: 'close',
-                    borderColor: '#002244',
-                    // backgroundColor: '#FFF',
-                    fill: false,
-                    data: y_axis, //[12, 19, 3, 5, 2, 3],
-                    // backgroundColor: [
-                    //     'rgba(255, 99, 132, 0.2)',
-                    //     'rgba(54, 162, 235, 0.2)',
-                    //     'rgba(255, 206, 86, 0.2)',
-                    //     'rgba(75, 192, 192, 0.2)',
-                    //     'rgba(153, 102, 255, 0.2)',
-                    //     'rgba(255, 159, 64, 0.2)'
-                    // ],
-                    // borderColor: [
-                    //     'rgba(255,99,132,1)',
-                    //     'rgba(54, 162, 235, 1)',
-                    //     'rgba(255, 206, 86, 1)',
-                    //     'rgba(75, 192, 192, 1)',
-                    //     'rgba(153, 102, 255, 1)',
-                    //     'rgba(255, 159, 64, 1)'
-                    // ],
-                    // borderWidth: 1
-                }, {
-                    label: 'Volume',
-                    yAxisID: 'volume',
-                    borderColor: '#F00',
-                    fill: false,
-                    data: volume
-                }
-            ]
-            },
-            options: {
-                scales: {
-                    yAxes: [
-                        {
-                            id: 'close',
-                            position: 'left',
-                            ticks: {beginAtZero: false}
-                        },
-                        {
-                            id: 'volume',
-                            position: 'right',
-                            ticks: {beginAtZero: true}
-                        }                    
-                    ]
-                }
-            }
-        });
-
-    })
-}
 
 
 
