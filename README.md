@@ -1,8 +1,14 @@
 # Cryptocurrency Exchange
 
-Repository containing a web system to provide cryptocurrencies exchange markets and proposal of recommended markets to be used.
+Much like regular currencies like dollar and pounds, cryptocurrencies also have exchange markets in order to sell or buy one for another. However, these cryptocurrencies also suffer daily variations and analysing its historical values might result on a better exchange. 
 
-The data to be used is retrieved from two main API resources: 
+In this sense, **Cryptocurrency Exchange** is a web app that provides historical exchange prices between cryptocurrency markets and a proposal of recommended market to be used in the current day. User can choose among several origin-to-target cryptocurrencies and gets a near-real time exchange rate. Exchange fees are also provided in the web app. 
+
+![](/frontend/img/example_screen.png)
+
+## Architecture
+
+All data is retrieved from two main API resources: 
 
 - [CryptoCompare](https://www.cryptocompare.com/api/): a cryptocurrency API for both current and historical data, such as prices, trading volumes and coins' metadata (tickers, images, fullnames, etc.)
 - [BitcoinFees](https://bitcoinfees.earn.com/api): a fee recommender for Bitcoin transactions in satoshis per byte. 
@@ -48,4 +54,4 @@ Then open the **index.html** contained in the **./frontend** file and you should
 
 #### Release Notes:
 **[09/19/2018]**: 
-- Django API seems to be having issues with cross domain access denials. As for this point, a [Chrome extension](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) is to be in order to allow communication with API. 
+- Django API seems to be having issues with cross domain access denials. As for this point, a [Chrome extension](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) can be installed in order to allow communication with API. 
